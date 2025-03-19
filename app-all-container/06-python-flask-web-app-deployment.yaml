@@ -23,7 +23,7 @@ spec:
         image: quay.io/rebontadeb/training/flask-app-x86-64:v1
         resources:
           limits:
-            memory: "128Mi"
+            memory: "256Mi"
             cpu: "100m"
         ports:
         - containerPort: 4200
