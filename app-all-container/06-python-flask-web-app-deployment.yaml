@@ -8,6 +8,7 @@ metadata:
   annotations:
     app.openshift.io/connects-to: '[{"apiVersion":"apps/v1","kind":"Deployment","name":"todoapi"}]'    
 spec:
+  replicas: 2 
   selector:
     matchLabels:
       app: webapp        
@@ -23,7 +24,7 @@ spec:
         image: quay.io/rebontadeb/training/flask-app-x86-64:v1
         resources:
           limits:
-            memory: "256Mi"
+            memory: "128Mi"
             cpu: "100m"
         ports:
         - containerPort: 4200
