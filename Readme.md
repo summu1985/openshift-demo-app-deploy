@@ -1,4 +1,4 @@
-#Cleanup [ All Container Apps ]
+# Cleanup [ All Container Apps ]
 
 ```
 oc delete Deployment/webapp
