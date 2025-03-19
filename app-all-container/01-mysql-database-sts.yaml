@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysqldb
+  labels:
+    app: mysqldb
+    version: v1  
+spec:
+  selector:
+    matchLabels:
+      app: mysqldb
+  serviceName: mysqldb-svc
+  replicas: 1
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: "true"    
+      labels:
+        app: mysqldb
+        version: v1  
+    spec:
+      containers:
+      - name: mysqldb
+        image: docker.io/mysql:latest
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "100m"        
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: mytodoapp
+        - name: MYSQL_DATABASE
+          value: todoapp
+        ports:
+        - containerPort: 3306
+          name: mysql
+        volumeMounts:
+        - name: db-data
+          mountPath: /var/lib/mysql
+  volumeClaimTemplates:
+  - metadata:
+      name: db-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 500Mi  

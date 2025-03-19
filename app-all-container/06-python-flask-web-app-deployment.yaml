@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp
+  labels:
+    app: webapp
+    version: v1    
+  annotations:
+    app.openshift.io/connects-to: '[{"apiVersion":"apps/v1","kind":"Deployment","name":"todoapi"}]'    
+spec:
+  selector:
+    matchLabels:
+      app: webapp        
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: "true"    
+      labels:
+        app: webapp
+    spec:
+      containers:
+      - name: webapp
+        image: quay.io/rebontadeb/training/flask-app-x86-64:v1
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "100m"
+        ports:
+        - containerPort: 4200
+        volumeMounts:
+          - mountPath: /config/web-app-config.properties
+            name: webapp-config
+            subPath: web-app-config.properties
+      volumes:
+        - name: webapp-config
+          configMap:
+            name: todo-app-configmap
+            items:
+            - key: web-app-config.properties
+              path: web-app-config.properties

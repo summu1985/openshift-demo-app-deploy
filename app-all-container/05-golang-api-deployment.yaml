@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todoapi
+  labels:
+    app: todoapi
+  annotations:
+    app.openshift.io/connects-to: '[{"apiVersion":"apps/v1","kind":"StatefulSet","name":"mysqldb"}]'    
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todoapi
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: "true"    
+      labels:
+        app: todoapi
+        version: v1            
+    spec:
+      containers:
+      - name: todoapi
+        image: quay.io/rebontadeb/training/go-todo-crud-api-x86-64:v1
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "100m"
+        ports:
+        - containerPort: 4100
+        volumeMounts:
+          - mountPath: /app/config/todo-api.properties
+            name: todo-api-config
+            subPath: todo-api.properties
+      volumes:
+        - name: todo-api-config
+          configMap:
+            name: todo-app-configmap
+            items:
+            - key: todo-api.properties
+              path: todo-api.properties
