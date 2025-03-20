@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: todoapi
-        image: quay.io/rebontadeb/training/go-todo-crud-api-x86-64:v1
+        image: image-registry.openshift-image-registry.svc:5000/pipelines-demo/go-todo-app:dev
         resources:
           limits:
             memory: "128Mi"
