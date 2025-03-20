@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: webapp
-        image: quay.io/rebontadeb/training/flask-app-x86-64:v1
+        image: image-registry.openshift-image-registry.svc:5000/pipelines-demo/flask-web-app:dev
         resources:
           limits:
             memory: "128Mi"
