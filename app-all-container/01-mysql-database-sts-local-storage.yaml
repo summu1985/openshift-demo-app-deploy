@@ -47,6 +47,7 @@ spec:
           storage: 500Mi
       nodeSelector:
           Role: worker-1
+      storageClassName: sc-sample1
   - metadata:
       name: db-data
     spec:
@@ -56,6 +57,7 @@ spec:
           storage: 500Mi
       nodeSelector:
           Role: worker-2
+      storageClassName: sc-sample1
   - metadata:
       name: db-data
     spec:
@@ -65,3 +67,4 @@ spec:
           storage: 500Mi
       nodeSelector:
           Role: worker-3
+      storageClassName: sc-sample1
